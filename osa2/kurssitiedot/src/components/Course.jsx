@@ -18,11 +18,17 @@ const Part = ({ part }) => {
   );
 };
 
+const Total = ({ course }) => {
+  const total = course.parts.reduce((sum, part) => sum + part.exercises, 0);
+  return <p>total of {total} exercises</p>;
+};
+
 const Course = ({ course }) => {
   return (
     <>
       <Header course={course} />
       <Content course={course} />
+      <Total course={course} />
     </>
   );
 };

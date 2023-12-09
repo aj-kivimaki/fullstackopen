@@ -21,8 +21,8 @@ const App = () => {
         id: 3,
       },
       {
-        name: "JSX",
-        exercises: 9,
+        name: "Redux",
+        exercises: 11,
         id: 4,
       },
     ],
