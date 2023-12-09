@@ -21,14 +21,18 @@ const App = () => {
     setVotes(updatedVotes);
   };
 
+  const randomNumber = Math.floor(Math.random() * 8);
+  const mostVoted = votes.indexOf(Math.max(...votes));
+
   return (
     <>
+      <h2>Anecdote of the day</h2>
       <div>{anecdotes[selected]}</div>
       <p>has {votes[selected]} votes</p>
       <button onClick={handleClick}>vote</button>
-      <button onClick={() => setSelected(Math.floor(Math.random() * 8))}>
-        next anecdote
-      </button>
+      <button onClick={() => setSelected(randomNumber)}>next anecdote</button>
+      <h2>Anecdote with most votes</h2>
+      <div>{anecdotes[mostVoted]}</div>
     </>
   );
 };
