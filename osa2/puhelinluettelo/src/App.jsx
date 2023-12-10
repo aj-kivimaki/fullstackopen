@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
@@ -25,20 +24,50 @@ const App = () => {
       number: newNumber,
     };
 
+    const updateNumber = () =>
+      persons.map((person) => {
+        if (person.name === newName) {
+          const id = person.id;
+
+          const confirmation = confirm(
+            `${newName} is already added to phonebook, replace the old number with a new one?`
+          );
+
+          if (confirmation) {
+            personService
+              .update(id, personObject)
+              .then((returnedPerson) =>
+                setPersons(
+                  persons.map((person) =>
+                    person.id !== id ? person : returnedPerson
+                  )
+                )
+              );
+          }
+        }
+      });
+
+    const createPerson = () =>
+      personService
+        .create(personObject)
+        .then((returnedPerson) => setPersons(persons.concat(returnedPerson)));
+
     persons.some((person) => person.name === newName)
-      ? alert(`${newName} is already added to phonebook`)
-      : personService.create(personObject).then((returnedPerson) => {
-          setPersons(persons.concat(returnedPerson));
-          setNewName("");
-          setNewNumber("");
-        });
+      ? updateNumber()
+      : createPerson();
+
+    setNewName("");
+    setNewNumber("");
   };
 
-  const handleClick = (id, name) => {
-    window.confirm(`Delete ${name} ? ID: ${id}`);
-    personService
-      .remove(id)
-      .then(() => setPersons(persons.filter((person) => person.id !== id)));
+  const handleRemove = (id, name) => {
+    const confirmation = confirm(`Delete ${name} ?`);
+
+    if (confirmation) {
+      personService
+        .remove(id)
+        .then(() => setPersons(persons.filter((person) => person.id !== id)));
+    }
   };
 
   return (
@@ -57,7 +86,7 @@ const App = () => {
       <Persons
         persons={persons}
         filterTerm={filterTerm}
-        handleClick={handleClick}
+        handleClick={handleRemove}
       />
     </div>
   );
