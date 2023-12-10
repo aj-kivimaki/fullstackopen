@@ -34,6 +34,13 @@ const App = () => {
         });
   };
 
+  const handleClick = (id, name) => {
+    window.confirm(`Delete ${name} ? ID: ${id}`);
+    personService
+      .remove(id)
+      .then(() => setPersons(persons.filter((person) => person.id !== id)));
+  };
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -47,7 +54,11 @@ const App = () => {
         newNumber={newNumber}
       />
       <h3>Numbers</h3>
-      <Persons persons={persons} filterTerm={filterTerm} />
+      <Persons
+        persons={persons}
+        filterTerm={filterTerm}
+        handleClick={handleClick}
+      />
     </div>
   );
 };
