@@ -1,6 +1,6 @@
 const Filter = ({ filterTerm, setFilterTerm }) => (
-  <div>
-    filter shown with{" "}
+  <div className="flex">
+    <label>find: </label>
     <input value={filterTerm} onChange={(e) => setFilterTerm(e.target.value)} />
   </div>
 );

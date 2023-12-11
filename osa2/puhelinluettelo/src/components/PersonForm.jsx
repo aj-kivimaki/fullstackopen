@@ -6,12 +6,12 @@ const PersonForm = ({
   newNumber,
 }) => (
   <form onSubmit={handleSubmit}>
-    <div>
-      name:{" "}
+    <div className="flex">
+      <label>name:</label>
       <input value={newName} onChange={(e) => setNewName(e.target.value)} />
     </div>
-    <div>
-      number:{" "}
+    <div className="flex">
+      <label>number:</label>
       <input value={newNumber} onChange={(e) => setNewNumber(e.target.value)} />
     </div>
     <div>

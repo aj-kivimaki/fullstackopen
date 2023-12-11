@@ -3,12 +3,14 @@ import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 import personService from "./services/persons";
+import Notification from "./components/Notification";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filterTerm, setFilterTerm] = useState("");
+  const [message, setMessage] = useState(null);
 
   useEffect(() => {
     personService.getAll().then((initialPersons) => {
@@ -43,14 +45,22 @@ const App = () => {
                   )
                 )
               );
+            setMessage("Number updated");
+            setTimeout(() => {
+              setMessage(null);
+            }, 2000);
           }
         }
       });
 
     const createPerson = () =>
-      personService
-        .create(personObject)
-        .then((returnedPerson) => setPersons(persons.concat(returnedPerson)));
+      personService.create(personObject).then((returnedPerson) => {
+        setPersons(persons.concat(returnedPerson));
+        setMessage("New contact created");
+        setTimeout(() => {
+          setMessage(null);
+        }, 2500);
+      });
 
     persons.some((person) => person.name === newName)
       ? updateNumber()
@@ -67,14 +77,18 @@ const App = () => {
       personService
         .remove(id)
         .then(() => setPersons(persons.filter((person) => person.id !== id)));
+      setMessage("Contact deleted");
+      setTimeout(() => {
+        setMessage(null);
+      }, 2500);
     }
   };
 
   return (
-    <div>
-      <h2>Phonebook</h2>
+    <div className="app flex">
+      <h1>Phonebook</h1>
       <Filter filterTerm={filterTerm} setFilterTerm={setFilterTerm} />
-      <h3>add a new</h3>
+      <h2>Add new contact</h2>
       <PersonForm
         handleSubmit={handleSubmit}
         setNewName={setNewName}
@@ -82,12 +96,13 @@ const App = () => {
         newName={newName}
         newNumber={newNumber}
       />
-      <h3>Numbers</h3>
+      <h2>Numbers</h2>
       <Persons
         persons={persons}
         filterTerm={filterTerm}
         handleClick={handleRemove}
       />
+      {message && <Notification message={message} />}
     </div>
   );
 };
