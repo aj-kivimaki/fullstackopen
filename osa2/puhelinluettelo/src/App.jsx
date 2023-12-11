@@ -11,6 +11,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [filterTerm, setFilterTerm] = useState("");
   const [message, setMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     personService.getAll().then((initialPersons) => {
@@ -76,11 +77,21 @@ const App = () => {
     if (confirmation) {
       personService
         .remove(id)
-        .then(() => setPersons(persons.filter((person) => person.id !== id)));
-      setMessage("Contact deleted");
-      setTimeout(() => {
-        setMessage(null);
-      }, 2500);
+        .then(() => {
+          setPersons(persons.filter((person) => person.id !== id));
+          setMessage("Contact deleted");
+          setTimeout(() => {
+            setMessage(null);
+          }, 4000);
+        })
+        .catch((err) => {
+          console.log(err.message);
+          setPersons(persons.filter((person) => person.id !== id));
+          setErrorMessage("This note was already deleted from the server");
+          setTimeout(() => {
+            setErrorMessage(null);
+          }, 4000);
+        });
     }
   };
 
@@ -102,7 +113,7 @@ const App = () => {
         filterTerm={filterTerm}
         handleClick={handleRemove}
       />
-      {message && <Notification message={message} />}
+      <Notification message={message} errorMessage={errorMessage} />
     </div>
   );
 };
