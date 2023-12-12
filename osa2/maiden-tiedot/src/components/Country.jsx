@@ -1,17 +1,20 @@
-const Country = ({ filtered }) => {
+import Weather from "../components/Weather";
+
+const Country = ({ country }) => {
   return (
     <div>
-      <h2>{filtered.name.common}</h2>
-      <p>capital {filtered.capital}</p>
-      <p>area {filtered.area}</p>
+      <h2>{country.name.common}</h2>
+      <p>capital {country.capital}</p>
+      <p>area {country.area}</p>
 
       <h3>languages:</h3>
       <ul>
-        {Object.values(filtered.languages).map((language) => (
+        {Object.values(country.languages).map((language) => (
           <li key={language}>{language}</li>
         ))}
       </ul>
-      <div className="flag">{filtered.flag}</div>
+      <div className="flag">{country.flag}</div>
+      <Weather country={country} />
     </div>
   );
 };

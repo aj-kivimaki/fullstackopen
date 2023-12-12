@@ -34,7 +34,7 @@ function App() {
       ) : (
         <div>Too many matches, specify another filter</div>
       )}
-      {filtered.length === 1 && <Country filtered={filtered[0]} />}
+      {filtered.length === 1 && <Country country={filtered[0]} />}
       {filtered.length === 0 && <div>No matches</div>}
     </div>
   );
