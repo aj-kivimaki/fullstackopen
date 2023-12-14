@@ -10,7 +10,7 @@ html {
 }
 
 .app {
-  height: 100vh;
+  min-height: 100vh;
   margin: 0 auto;
   display: flex;
   background-color: rgb(245, 240, 240);
